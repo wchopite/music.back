@@ -12,7 +12,7 @@ class AlbumRequest extends FormRequest {
    */
   public function authorize() {
 
-    return false;
+    return true;
   }
 
   /**
@@ -21,7 +21,7 @@ class AlbumRequest extends FormRequest {
    * @return array
    */
   public function rules() {
-    
+
     return [
       //
     ];
