@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Album;
 
-class AlbumController extends Controller
-{
+class AlbumController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+
+      $albums = Album::orderBy('name','asc')->get();
+      return response()->json($albums);
     }
 
     /**
@@ -21,10 +22,7 @@ class AlbumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    public function create() { }
 
     /**
      * Store a newly created resource in storage.
