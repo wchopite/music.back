@@ -13,13 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-  return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//   return $request->user();
+// });
 
 Route::group(['prefix' => 'v1','middleware' => 'cors'], function() {
 
   Route::resource('genders', 'GenderController');
   Route::resource('artists', 'ArtistController');
   Route::resource('albums', 'AlbumController');
+  Route::resource('users', 'UsersController');
 });
