@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Album;
 use App\Http\Requests\AlbumRequest;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller {
+  
   /**
    * Display a listing of the resource.
    *
@@ -14,7 +16,11 @@ class AlbumController extends Controller {
    */
   public function index() {
 
-    $albums = Album::orderBy('name','asc')->get();
+    $albums = Album::orderBy('name','asc')
+                ->with('gender','artist')
+                //->select('id','name','gender_id','artist_id')
+                ->get();
+
     return response()->json($albums);
   }
 
@@ -33,14 +39,22 @@ class AlbumController extends Controller {
    */
   public function store(AlbumRequest $request) {
 
-    if ($request->hasFile('file')) {
-      return "archivo";
-    }
-    else return "sin archivo";
+    if($request->hasFile('image')) {
 
-    // $album = new Album($request->all());
-    // $album->save();
-    // return response()->json($album);
+      $ext = $request->image->extension();
+      $fileName = time().".".$ext;
+
+      $path = $request->image->storeAs('public',$fileName);
+
+      $album = new Album($request->all());
+      $album->path = Storage::url($path);
+      $album->save();
+      return response()->json($album);
+    }
+    else {
+
+      return "No file";
+    }
   }
 
   /**
@@ -49,9 +63,14 @@ class AlbumController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
-  {
-      //
+  public function show($id) {
+
+    $album = Album::where('id',$id)->with('gender','artist')->first();
+
+    if(is_null($album))
+      return response()->json("Registro no encontrado", 404);
+    else
+      return response()->json($album);
   }
 
   /**
@@ -60,10 +79,7 @@ class AlbumController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
-  {
-      //
-  }
+  public function edit($id) { }
 
   /**
    * Update the specified resource in storage.
@@ -72,9 +88,24 @@ class AlbumController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
-  {
-      //
+  public function update(AlbumRequest $request, $id) {
+
+    $album = Album::find($id);
+
+    if(is_null($album))
+      return response()->json('Registro no encontrado', 404);
+    else {
+
+      if($request->hasFile('image')) {
+
+        $dirs = explode("/", $album->path);
+        Storage::delete('public/'.$dirs[count($dirs)-1]);
+        $path = $request->image->storeAs('public',$dirs[count($dirs)-1]);
+      }
+
+      $album->update($request->all());
+      return response()->json($album);
+    }
   }
 
   /**
@@ -83,8 +114,16 @@ class AlbumController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
-  {
-      //
+  public function destroy($id) {
+
+    $album = Album::find($id);
+
+    if(is_null($album)){
+      return response()->json('Registro no encontrado', 404);
+    }
+    else {
+      $album->delete();
+      return response()->json("Registro eliminado satisfactoriamente");
+    }
   }
 }

@@ -3,8 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Album extends Model {
+
+	use SoftDeletes;
+
+	/**
+	 * [$dates description]
+	 * @var [type]
+	 */
+	protected $dates = ['deleted_at'];
 
 	/**
 	 * The attributes that are mass assignable.
@@ -19,6 +28,12 @@ class Album extends Model {
 		 'description',
 		 'path'
 	 ];
+
+	 /**
+	  * [$hidden description]
+	  * @var [type]
+	  */
+	 protected $hidden = ['deleted_at','created_at'];
 
 	 /**
 	  * [gender description]
