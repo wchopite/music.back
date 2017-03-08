@@ -23,6 +23,7 @@ class Album extends Model {
 	 protected $fillable = [
 		 'artist_id',
 		 'gender_id',
+		 'user_id',
 		 'name',
 		 'year',
 		 'description',
@@ -34,6 +35,17 @@ class Album extends Model {
 	  * @var [type]
 	  */
 	 protected $hidden = ['deleted_at','created_at'];
+
+	 /**
+	  * Mutator Setea a mayusculas la primera letra de cada palabra
+	  * del campo nombre
+	  *
+	  * @param [type] $value [description]
+	  */
+	 public function setNameAttribute($value) {
+
+		 $this->attributes['name'] = ucfirst(strtolower($value));
+	 }
 
 	 /**
 	  * [gender description]

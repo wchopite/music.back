@@ -8,7 +8,7 @@ use App\Http\Requests\AlbumRequest;
 use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller {
-  
+
   /**
    * Display a listing of the resource.
    *
@@ -17,9 +17,9 @@ class AlbumController extends Controller {
   public function index() {
 
     $albums = Album::orderBy('name','asc')
-                ->with('gender','artist')
-                //->select('id','name','gender_id','artist_id')
-                ->get();
+      ->with('gender','artist')
+      //->select('id','name','gender_id','artist_id')
+      ->get();
 
     return response()->json($albums);
   }
@@ -53,7 +53,7 @@ class AlbumController extends Controller {
     }
     else {
 
-      return "No file";
+      return response()->json("Debe indicar la imagen del album",400);
     }
   }
 

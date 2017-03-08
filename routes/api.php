@@ -22,5 +22,7 @@ Route::group(['prefix' => 'v1','middleware' => 'cors'], function() {
   Route::resource('genders', 'GenderController');
   Route::resource('artists', 'ArtistController');
   Route::resource('albums', 'AlbumController');
-  Route::resource('users', 'UsersController');
+  
+  // Users Routes  
+  Route::resource('users', 'UsersController');  
 });

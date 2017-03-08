@@ -29,11 +29,22 @@ class Gender extends Model {
 	 protected $hidden = ['deleted_at','created_at'];
 
 	 /**
-	  * [albums description]
+	  * Mutator Setea a mayusculas la primera letra de cada palabra
+	  * del campo nombre
+	  *
+	  * @param [type] $value [description]
+	  */
+	 public function setNameAttribute($value) {
+
+		 $this->attributes['name'] = ucfirst(strtolower($value));
+	 }
+
+	 /**
+	  * Relacion 1:N con modelo Album
 	  * @return [type] [description]
 	  */
 	 public function albums() {
 
-		return $this->hasMany('App\Album');
-	 }
+		 return $this->hasMany('App\Album');
+ 	}
 }

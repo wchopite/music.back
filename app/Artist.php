@@ -29,6 +29,17 @@ class Artist extends Model {
 	 protected $hidden = ['deleted_at','created_at'];
 
 	 /**
+	  * Mutator Setea a mayusculas la primera letra de cada palabra
+	  * del campo nombre
+	  *
+	  * @param [type] $value [description]
+	  */
+	 public function setNameAttribute($value) {
+
+		 $this->attributes['name'] = ucfirst(strtolower($value));
+	 }
+
+	 /**
 	  * [albums description]
 	  * @return [type] [description]
 	  */

@@ -7,6 +7,9 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
 class UsersController extends Controller {
 
   /**
@@ -36,6 +39,7 @@ class UsersController extends Controller {
   public function store(UserRequest $request) {
 
     $user = new User($request->all());
+    //bcrypt($data['password'])
     $user->password = Hash::make($user->password);
     $user->save();
     return response()->json($user);
@@ -102,5 +106,31 @@ class UsersController extends Controller {
       $user->delete();
       return response()->json("Registro eliminado satisfactoriamente");
     }
+  }
+  
+  /**
+   * Authentication
+   */
+  public function login(Request $request) {
+    
+    // Se almacenan las credenciales del usuario
+    $credentials = $request->only('email', 'password');
+
+    try {
+      
+      // se intenta verifica las credenciales y crear asi el token para el usuario
+      if(!$token = JWTAuth::attempt($credentials)) {
+
+        return response()->json(['error' => 'invalid credentials'], 401);
+      }
+    } 
+    catch (JWTException $e) {
+        
+      // something went wrong whilst attempting to encode the token
+      return response()->json(['error' => 'could not create token'], 500);
+    }
+
+    // all good so return the token
+    return response()->json(compact('token'));
   }
 }

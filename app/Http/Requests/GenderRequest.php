@@ -30,7 +30,7 @@ class GenderRequest extends FormRequest {
     // Validation rule for field name on action update
     if($this->method() == "PUT" || $this->method() == "PATCH") {
 
-      $name_validation = 'required|min: 3|max:80|unique:genders,name,'.$this->gender.'';
+      $name_validation = 'required|min: 3|max:80|unique:genders,name,'.$this->gender;
     }
 
     return [
