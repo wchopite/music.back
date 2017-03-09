@@ -111,7 +111,7 @@ class UsersController extends Controller {
   /**
    * Authentication
    */
-  public function login(Request $request) {
+  public function authenticate(Request $request) {
     
     // Se almacenan las credenciales del usuario
     $credentials = $request->only('email', 'password');
@@ -132,5 +132,23 @@ class UsersController extends Controller {
 
     // all good so return the token
     return response()->json(compact('token'));
+  }
+
+  /**
+   * Invalidate the token
+   */
+  public function logout() {
+
+    $token = JWTAuth::getToken();
+
+    try {
+
+      JWTAuth::invalidate($token);      
+    }
+    catch(JWTException $e){
+
+      return response()->json(['error' => 'could not invalidate the token'], 500);
+    }
+    return response()->json("Logout successfully");
   }
 }

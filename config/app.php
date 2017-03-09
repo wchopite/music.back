@@ -180,7 +180,12 @@ return [
         /*
          * Cors Service Provider
          */
-        Barryvdh\Cors\ServiceProvider::class,        
+        Barryvdh\Cors\ServiceProvider::class,
+
+        /*
+         * WT Service Provider
+         */
+        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider'
     ],
 
     /*
@@ -228,7 +233,9 @@ return [
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class
+        'View' => Illuminate\Support\Facades\View::class,
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'
     ],
 
 ];
