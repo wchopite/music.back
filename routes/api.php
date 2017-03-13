@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +17,14 @@ use Illuminate\Http\Request;
 //   return $request->user();
 // });
 
-Route::group(['prefix' => 'v1','middleware' => 'cors'], function() {  
+Route::group(['prefix' => 'v1','middleware' => 'cors'], function() {
 
-  Route::group(['middleware'=>'jwt.auth'], function(){
+  //Route::group(['middleware'=>'jwt.auth'], function(){
     Route::resource('genders', 'GenderController');
     Route::resource('artists', 'ArtistController');
     Route::resource('albums', 'AlbumController');
     Route::resource('users', 'UsersController');
-  });
+  //});
 
   // Authenticate routes
   Route::post('/login', 'UsersController@authenticate');
