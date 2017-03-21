@@ -37,8 +37,7 @@ class Album extends Model {
 	 protected $hidden = ['deleted_at','created_at'];
 
 	 /**
-	  * Mutator Setea a mayusculas la primera letra de cada palabra
-	  * del campo nombre
+	  * Mutator => Setea a mayusculas la primera letra del campo nombre
 	  *
 	  * @param [type] $value [description]
 	  */
@@ -63,5 +62,14 @@ class Album extends Model {
 	 public function artist() {
 
 		 return $this->belongsTo('App\Artist');
+	 }
+
+	 /**
+	  * N:1
+	  * @return [type] [description]
+	  */
+	 public function user() {
+
+		 return $this->belongsTo('App\User');
 	 }
 }

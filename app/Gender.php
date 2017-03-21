@@ -41,10 +41,9 @@ class Gender extends Model {
 
 	 /**
 	  * Relacion 1:N con modelo Album
-	  * @return [type] [description]
 	  */
 	 public function albums() {
 
 		 return $this->hasMany('App\Album');
- 	}
+ 	} 
 }

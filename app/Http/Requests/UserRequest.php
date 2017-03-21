@@ -25,17 +25,20 @@ class UserRequest extends FormRequest {
     // Validation rule for field name by default (Http POST method, action store)
     $name_validation = 'required|unique:users|min: 4|max:60';
     $email_validation = 'required|unique:users|email';
+    $password_validation = 'required';
 
     // Validation rule for field name on action update
     if($this->method() == "PUT" || $this->method() == "PATCH") {
 
       $name_validation = 'required|min: 4|max:60|unique:users,name,'.$this->user;
       $email_validation = 'required|email|unique:users,email,'.$this->user;
+      $password_validation = '';
     }
 
     return [
       'name' => $name_validation,
-      'email' => $email_validation
+      'email' => $email_validation,
+      'password' => $password_validation
     ];
   }
 

@@ -35,4 +35,12 @@ class User extends Authenticatable {
   protected $hidden = [
     'password', 'remember_token','created_at', 'deleted_at'
   ];
+
+  /**
+   * Relacion 1:N con modelo Album
+   */
+  public function albums() {
+
+    return $this->hasMany('App\Album');
+  }
 }

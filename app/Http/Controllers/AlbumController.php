@@ -17,7 +17,7 @@ class AlbumController extends Controller {
   public function index() {
 
     $albums = Album::orderBy('name','asc')
-      ->with('gender','artist')
+      ->with('gender','artist','user')
       //->select('id','name','gender_id','artist_id')
       ->get();
 
@@ -40,7 +40,8 @@ class AlbumController extends Controller {
   public function store(AlbumRequest $request) {
 
     if($request->hasFile('image')) {
-
+      
+      //$ext = $request->image->getClientOriginalName();
       $ext = $request->image->extension();
       $fileName = time().".".$ext;
 
@@ -65,7 +66,7 @@ class AlbumController extends Controller {
    */
   public function show($id) {
 
-    $album = Album::where('id',$id)->with('gender','artist')->first();
+    $album = Album::where('id',$id)->with('gender','artist','user')->first();
 
     if(is_null($album))
       return response()->json("Registro no encontrado", 404);
@@ -99,6 +100,8 @@ class AlbumController extends Controller {
       if($request->hasFile('image')) {
 
         $dirs = explode("/", $album->path);
+        //$dirs[0] = 'storage';
+        //$dirs[1] = '12132323.jpg';
         Storage::delete('public/'.$dirs[count($dirs)-1]);
         $path = $request->image->storeAs('public',$dirs[count($dirs)-1]);
       }
@@ -122,7 +125,10 @@ class AlbumController extends Controller {
       return response()->json('Registro no encontrado', 404);
     }
     else {
-      $album->delete();
+      
+      $dirs = explode("/", $album->path);
+      Storage::delete('public/'.$dirs[count($dirs)-1]);
+      $album->delete();      
       return response()->json("Registro eliminado satisfactoriamente");
     }
   }

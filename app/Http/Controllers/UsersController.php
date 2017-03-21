@@ -84,6 +84,11 @@ class UsersController extends Controller {
       return response()->json('Registro no encontrado', 404);
     else {
 
+      if($request->hasFile('password')) {
+
+        $request->password = Hash::make($request->password);
+      }
+
       $user->update($request->all());
       return response()->json($user);
     }
